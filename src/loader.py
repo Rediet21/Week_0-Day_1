@@ -7,7 +7,7 @@ import copy
 from datetime import datetime
 from pick import pick
 from time import sleep
-#import globe
+import glob
 import pandas as pd
 
 # combine all json file in all-weeks8-9
@@ -178,7 +178,7 @@ class SlackDataLoader:
         channel_path = os.path.join(self.path, channel_name)
         message = []
         for json_file in glob.glob(f"{channel_path}/*.json"):
-            with open(json_file, 'r', encodeing = 'utf8') as slack data:
+            with open(json_file, 'r', encoding = 'utf8') as slack_data:
                 messages += json.load(slack_data)
                 
                 return messages
@@ -261,15 +261,21 @@ def fraction_of_messages_replied_within_time(df, time_threshold):
     plt.title('Scatter plot of Time Difference and Time of the Day')
     plt.colorbar(label='Channel')
     plt.show()
+    
+data_locate = r"C:\Users\HP\week0_starter_network_analysis\anonymized"
 
-
+data = slack_parser(data_locate)
 
 
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Export Slack history')
-
     
-    parser.add_argument('--zip', help="Name of a zip file to import")
-    args = parser.parse_args()
+    top_message_by_replies(data, column, n=10)
+    top_users_by_count(df, column, n=10, ascending=False)
+    top_messages_by_count(data, column, n=10, ascending=False)
+    channel_with_highest_activity(data)
+    fraction_of_messages_replied_within_time(data, time_threshold)
+    
+    
+    
